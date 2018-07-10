@@ -1,9 +1,10 @@
 # antlr4-tool
 
 ## Overview
-The **antlr4-tool** generates both Typescript and JavaScript Antlr4 Parsers and Lexers.
-The generated Antlr4 Parsers and Lexers have full **ES5+** browser support. The purpose and intent
-of this project was to create and generate Typescript declaration files for the [Antlr4](https://www.npmjs.com/package/antlr4) NPM Library
+The purpose and intent of this project was to create and generate Typescript declaration files
+for the [Antlr4](https://www.npmjs.com/package/antlr4) JavaScript target. 
+Allowing for generated Antlr Parsers and Lexers that have full **ES5** browser support. This tool also
+allows for pure JavaScript implementations, if needed.
 
 ## Requirements
 * Java Runtime Environment 1.6+ (1.8+ recommended)
@@ -11,13 +12,13 @@ of this project was to create and generate Typescript declaration files for the 
 
 ## Getting Stated
 
-1. Install antlr4-tool,  adding it to your package.json
+1. Install *antlr4-tool*,  adding it to your package.json
 
 ```bash
 npm install --save-dev antlr4-tool
 ```
 
-2. Install Antlr4 
+2. Install the Antlr4 library
 
 ```bash
 npm install -S antlr4
