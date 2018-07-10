@@ -23,7 +23,7 @@ npm install --save-dev antlr4-tool
 ```bash
 npm install -S antlr4
 ```
-3. **(TypeScript Only)** Install the Antlr4 types
+3. **(TypeScript Only)** Install the Antlr4 types **(@types/antlr4 Awaiting Pull Request https://github.com/DefinitelyTyped/DefinitelyTyped/pull/27120)**
 
 ```bash
 npm install -S @types/antlr4
