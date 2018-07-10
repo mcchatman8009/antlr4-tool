@@ -107,7 +107,7 @@ antlr4-tool -o c-parser samples/c/C.g4
 ![Example](./docs/c-parser.png)
 
 
-## Using antlr4-tool As A Library
+## Using antlr4-tool as a Library
 ```javascript
 const tool = require('antlr4-tool');
 
