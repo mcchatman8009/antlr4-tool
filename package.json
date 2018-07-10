@@ -38,5 +38,9 @@
     "lodash": "^4.17.10",
     "mkdir-recursive": "^0.4.0",
     "node-eval": "^2.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mcchatman8009/antlr4-tool"
   }
 }
