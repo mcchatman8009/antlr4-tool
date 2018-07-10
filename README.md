@@ -2,7 +2,8 @@
 
 ## Overview
 The **antlr4-tool** generates both Typescript and JavaScript Antlr4 Parsers and Lexers.
-The generated Antlr4 Parsers and Lexers have full **ES5+** browser support.
+The generated Antlr4 Parsers and Lexers have full **ES5+** browser support. The purpose and intent
+of this project was to create and generate Typescript declaration files for the [Antlr4](https://www.npmjs.com/package/antlr4) NPM Library
 
 ## Requirements
 * Java Runtime Environment 1.6+ (1.8+ recommended)
