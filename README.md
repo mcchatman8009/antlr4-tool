@@ -114,7 +114,7 @@ antlr4-tool -o c-parser samples/c/C.g4
 const tool = require('antlr4-tool');
 
 const opts = {
-   language: 'Typescript' ,
+   language: 'Typescript', // Only support for JavaScript & TypeScript
    grammarFiles:  ['samples/c/C.g4'],
    outputDirectory: 'c-parser'
 };
