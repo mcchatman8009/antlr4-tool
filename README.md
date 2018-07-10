@@ -81,7 +81,9 @@ console.log(tree);
 
 
 
-## Installation For Command-Line Use
+## For Command-Line Use
+
+### Installation For Command-Line Use
 ```bash
 npm install -g antlr4-tool
 ```
