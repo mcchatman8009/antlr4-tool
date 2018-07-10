@@ -1,0 +1,17 @@
+.git
+.idea
+node_modules
+src
+docs/index.html
+*.g4
+tsconfig.json
+antlr-editor.iml
+webpack.*.js
+src/test/test*.js
+src/test/test*.ts
+
+src/test/editor/eci/*.js
+src/test/editor/test2/*.js
+Jenkinsfile
+
+

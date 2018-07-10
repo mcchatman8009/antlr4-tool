@@ -1,0 +1,8 @@
+.git
+src/test
+.idea
+node_modules
+antlr4-parser-tool.iml
+lib
+*.tgz
+dist

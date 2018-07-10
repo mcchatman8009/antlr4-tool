@@ -1,0 +1,42 @@
+{
+  "name": "antlr4-tool",
+  "version": "1.0.0",
+  "description": "An Antlr4 tool that generates both Typescript and JavaScript Antlr Parsers",
+  "main": "dist/index.js",
+  "private": true,
+  "bin": {
+    "antlr4-tool": "dist/app.js",
+    "antlr4.js": "dist/app.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rm -rf dist",
+    "build": "rm -rf dist && mkdir -p dist && cp -r src/* dist",
+    "watch": "webpack -w"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "ANTLR4",
+    "typescript"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^4.15.1",
+    "webpack-cli": "^3.0.8",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "dependencies": {
+    "antlr4": "^4.7.1",
+    "chalk": "^2.4.1",
+    "chdir": "0.0.0",
+    "commander": "^2.16.0",
+    "directory-exists": "^2.0.0",
+    "ejs": "^2.6.1",
+    "lodash": "^4.17.10",
+    "mkdir-recursive": "^0.4.0",
+    "node-eval": "^2.0.0"
+  }
+}
