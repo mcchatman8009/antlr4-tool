@@ -16,7 +16,7 @@ The generated Antlr4 parsers and lexers have full **ES5+** browser support.
 npm install --save-dev antlr4-tool
 ```
 
-2. Install the Antlr4 
+2. Install Antlr4 
 
 ```bash
 npm install -S antlr4
