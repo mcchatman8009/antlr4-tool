@@ -32,8 +32,8 @@ npm install -S antlr4
   "install-types": "antlr4-types-install"
 }
 ```
-(TypeScript Only) The install-types script is a hack until the DefinitelyTyped Pull Request is approved
-(@types/antlr4 Awaiting Pull Request https://github.com/DefinitelyTyped/DefinitelyTyped/pull/27120)
+**(TypeScript Only) The install-types script is a hack until the DefinitelyTyped Pull Request is approved
+(@types/antlr4 Awaiting Pull Request https://github.com/DefinitelyTyped/DefinitelyTyped/pull/27120)**
 
 4. Run the NPM script command
 ```bash
