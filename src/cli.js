@@ -26,5 +26,3 @@ _.each(compileResults, (files, grammar) => {
         log(`Generated ${chalk.blue.underline(file)}`);
     });
 });
-
-// console.log(res);

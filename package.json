@@ -6,6 +6,7 @@
   "private": true,
   "bin": {
     "antlr4-tool": "dist/app.js",
+    "antlr4-types-install": "dist/types-install-app.js",
     "antlr4.js": "dist/app.js"
   },
   "scripts": {
@@ -37,7 +38,8 @@
     "ejs": "^2.6.1",
     "lodash": "^4.17.10",
     "mkdir-recursive": "^0.4.0",
-    "node-eval": "^2.0.0"
+    "node-eval": "^2.0.0",
+    "targz": "^1.0.1"
   },
   "repository": {
     "type": "git",

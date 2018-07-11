@@ -23,26 +23,29 @@ npm install --save-dev antlr4-tool
 ```bash
 npm install -S antlr4
 ```
-3. **(TypeScript Only)** Install the Antlr4 types **(@types/antlr4 Awaiting Pull Request https://github.com/DefinitelyTyped/DefinitelyTyped/pull/27120)**
 
-```bash
-npm install -S @types/antlr4
-```
-
-4. Add a grammar to your project, e.g. path/to/Grammar.g4
+3. Add a grammar to your project, e.g. path/to/Grammar.g4
 
 ```json
 "scripts": {
-  "generateParser": "antlr4-tool -o parser path/to/Grammar.g4"
+  "generateParser": "antlr4-tool -o parser path/to/Grammar.g4",
+  "install-types": "antlr4-types-install"
 }
 ```
+(TypeScript Only) The install-types script is a hack until the DefinitelyTyped Pull Request is approved
+(@types/antlr4 Awaiting Pull Request https://github.com/DefinitelyTyped/DefinitelyTyped/pull/27120)
 
-5. Run the NPM script command
+4. Run the NPM script command
 ```bash
 npm run generateParser
+
+#
+# Install types into node_modules/@types/antlr4
+#
+npm run install-types
 ```
 
-6. Use your generated Parser
+5. Use your generated Parser
 
 **JavaScript**
 ```javascript
@@ -80,7 +83,11 @@ const tree = parser.compilationUnit();
 console.log(tree);
 ```
 
-
+### TypeScript Notes
+Add to your **tsconfig.json**:
+```
+"typeRoots": ["types"],
+```
 
 
 ## For Command-Line Use
