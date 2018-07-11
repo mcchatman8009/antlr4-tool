@@ -12,19 +12,19 @@ allows for pure JavaScript implementations, if needed.
 
 ## Getting Stated
 
-1. Install *antlr4-tool*,  adding it to your package.json
+* Install *antlr4-tool*,  adding it to your package.json
 
 ```bash
 npm install --save-dev antlr4-tool
 ```
 
-2. Install the Antlr4 library
+* Install the Antlr4 library
 
 ```bash
 npm install -S antlr4
 ```
 
-3. Add a grammar to your project, e.g. path/to/Grammar.g4
+* Add a grammar to your project, e.g. path/to/Grammar.g4
 
 ```json
 "scripts": {
@@ -35,7 +35,7 @@ npm install -S antlr4
 **(TypeScript Only) The install-types script is a hack until the DefinitelyTyped Pull Request is approved
 (@types/antlr4 Awaiting Pull Request https://github.com/DefinitelyTyped/DefinitelyTyped/pull/27120)**
 
-4. Run the NPM script command
+* Run the NPM script command
 ```bash
 npm run generateParser
 
@@ -45,7 +45,7 @@ npm run generateParser
 npm run install-types
 ```
 
-5. Use your generated Parser
+* Use your generated Parser
 
 **JavaScript**
 ```javascript

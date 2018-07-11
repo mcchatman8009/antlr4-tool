@@ -1,9 +1,8 @@
 {
   "name": "antlr4-tool",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An Antlr4 tool that generates both Typescript and JavaScript Antlr Parsers",
   "main": "dist/index.js",
-  "private": true,
   "bin": {
     "antlr4-tool": "dist/app.js",
     "antlr4-types-install": "dist/types-install-app.js",
@@ -16,13 +15,13 @@
     "watch": "webpack -w"
   },
   "files": [
-    "dist"
+    "dist",
+    "docs"
   ],
   "keywords": [
     "ANTLR4",
     "typescript"
   ],
-  "author": "",
   "license": "ISC",
   "devDependencies": {
     "webpack": "^4.15.1",
@@ -44,5 +43,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/mcchatman8009/antlr4-tool"
+  },
+  "author": {
+    "name": "Marlon Chatman",
+    "email": "mcchatman8009@gmail.com"
   }
 }
