@@ -1,6 +1,6 @@
 {
   "name": "antlr4-tool",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "An Antlr4 tool that generates both Typescript and JavaScript Antlr Parsers",
   "main": "dist/index.js",
   "bin": {
@@ -23,11 +23,6 @@
     "typescript"
   ],
   "license": "ISC",
-  "devDependencies": {
-    "webpack": "^4.15.1",
-    "webpack-cli": "^3.0.8",
-    "webpack-node-externals": "^1.7.2"
-  },
   "dependencies": {
     "antlr4": "^4.7.1",
     "chalk": "^2.4.1",
