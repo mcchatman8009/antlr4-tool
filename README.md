@@ -28,8 +28,7 @@ npm install -S antlr4
 
 ```json
 "scripts": {
-  "generateParser": "antlr4-tool -o parser path/to/Grammar.g4",
-  "install-types": "antlr4-types-install"
+  "generateParser": "antlr4-tool -i && antlr4-tool -o parser path/to/Grammar.g4"
 }
 ```
 **(TypeScript Only) The install-types script is a hack until the DefinitelyTyped Pull Request is approved
@@ -38,11 +37,6 @@ npm install -S antlr4
 * Run the NPM script command
 ```bash
 npm run generateParser
-
-#
-# Install types into node_modules/@types/antlr4
-#
-npm run install-types
 ```
 
 * Use your generated Parser
