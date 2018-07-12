@@ -98,6 +98,7 @@ npm install -g antlr4-tool
 
     -o --output-dir [output_dir]  Output Directory
     -l --language [language]      Language (Default: TypeScript)
+    -i --install-types            Install the Antlr4 types into node_modules/@types/antlr4
     -h, --help                    output usage information
 ```
 
