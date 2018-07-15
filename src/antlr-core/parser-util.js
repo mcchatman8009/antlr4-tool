@@ -4,6 +4,15 @@ const _ = require('lodash');
 const path = require('path');
 const _eval = require("node-eval");
 
+function readLexer(grammar, lexerFile) {
+    const outputDir = path.dirname(lexerFile);
+    const contents = fs.readFileSync(lexerFile).toString();
+    const Lexer = _eval(contents, `${outputDir}/eval.js`)[`${grammar}Lexer`];
+    const lexer = new Lexer(null);
+
+    return lexer;
+}
+
 function readParser(grammar, parserFile) {
     const outputDir = path.dirname(parserFile);
     const contents = fs.readFileSync(parserFile).toString();
@@ -129,6 +138,7 @@ function contextObjectAst(parser) {
 }
 
 exports.readParser = readParser;
+exports.readLexer = readLexer;
 exports.contextObjectAst = contextObjectAst;
 exports.parserMethods = parserMethods;
 exports.symbolSet = symbolSet;

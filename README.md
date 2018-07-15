@@ -22,21 +22,24 @@ npm install --save-dev antlr4-tool
 
 ```bash
 npm install -S antlr4
+
+#
+# (TypeScript Only)
+#
+npm install -S @types/antlr4
 ```
 
 * Add a grammar to your project, e.g. path/to/Grammar.g4
 
 ```json
 "scripts": {
-  "generateParser": "antlr4-tool -i && antlr4-tool -o parser path/to/Grammar.g4"
+  "generate-parser": "antlr4-tool -o parser path/to/Grammar.g4"
 }
 ```
-**(TypeScript Only) The install-types script is a hack until the DefinitelyTyped Pull Request is approved
-(@types/antlr4 Awaiting Pull Request https://github.com/DefinitelyTyped/DefinitelyTyped/pull/27120)**
 
 * Run the NPM script command
 ```bash
-npm run generateParser
+npm run generate-parser
 ```
 
 * Use your generated Parser
