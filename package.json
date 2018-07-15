@@ -1,6 +1,6 @@
 {
   "name": "antlr4-tool",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "An Antlr4 tool that generates both Typescript and JavaScript Antlr Parsers",
   "main": "dist/index.js",
   "bin": {
@@ -20,6 +20,9 @@
   ],
   "keywords": [
     "ANTLR4",
+    "parser",
+    "antlr4",
+    "es5",
     "typescript"
   ],
   "license": "ISC",
