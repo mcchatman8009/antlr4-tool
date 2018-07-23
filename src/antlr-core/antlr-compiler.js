@@ -98,7 +98,11 @@ class AntlrCompiler {
             child.execSync('which java');
 
             const cmd = this.command();
-            child.execSync(cmd).toString();
+            try {
+                child.execSync(cmd).toString();                
+            } catch (error) {
+                process.exit(1);
+            }
 
             const files = fs.readdirSync(this.outputDirectory);
             filesGenerated = _.filter(files, (file) => file.startsWith(baseGrammarName, 0));
