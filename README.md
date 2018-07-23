@@ -99,17 +99,26 @@ npm install -g antlr4-tool
 
   Options:
 
-    -o --output-dir [output_dir]  Output Directory
-    -l --language [language]      Language (Default: TypeScript)
-    -i --install-types            Install the Antlr4 types into node_modules/@types/antlr4
+    -o --output-dir [output_dir]  Output Directory (Default: Current Directory)
+    -l --language [language]      Antlr Language Target: ts, typescript, js, javascript (Default: typescript)
+    --listener                    Generate parse tree listener (Default)
+    --no-listener                 Don't generate parse tree listener
+    --visitor                     Generate parse tree visitor (Default)
+    --no-visitor                  Don't generate parse tree visitor
     -h, --help                    output usage information
 ```
 
 
-### Example Creating a C Parser for TypeScript & JavaScript
+### Example Creating a C Parser for TypeScript
 ```bash
-antlr4-tool -o c-parser samples/c/C.g4
+antlr4-tool -l ts -o c-parser samples/c/C.g4
 ```
+
+### Example Creating a C Parser for JavaScript
+```bash
+antlr4-tool -l js -o c-parser samples/c/C.g4
+```
+
 
 ![Example](./docs/c-parser.png)
 

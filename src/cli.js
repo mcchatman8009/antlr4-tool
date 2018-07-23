@@ -11,7 +11,7 @@ const installer = new TypesInstaller();
 const opts = commander.name("antlr4-tool")
     .arguments('<grammars...>')
     .option('-o --output-dir [output_dir]', "Output Directory (Default: Current Directory)")
-    .option('-l --language [language]', "Language (Default: TypeScript)")
+    .option('-l --language [language]', "Antlr Language Target: ts, typescript, js, javascript (Default: typescript)")
     .option('--listener', "Generate parse tree listener (Default)")
     .option('--no-listener', "Don't generate parse tree listener")
 
