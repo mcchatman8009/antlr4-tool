@@ -40,12 +40,14 @@ function compileGrammarAsJavaScript(config) {
 }
 
 function compileGrammarAsTypeScript(config) {
+    config = _.clone(config);
+
+    // Define the language as JavaScript for the Antlr4 Jar
+    config.language = 'JavaScript';
     return compileWithFunction(config, (compiler) => compiler.compileTypeScript());
 }
 
 function compile(config) {
-    config = _.clone(config);
-
     config.outputDirectory = path.resolve(config.outputDirectory);
 
     switch (config.language) {

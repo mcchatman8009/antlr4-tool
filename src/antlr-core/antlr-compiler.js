@@ -73,11 +73,14 @@ class AntlrCompiler {
             // Read Again
             parser = parserUtil.readParser(grammar, parserFile);
             const lexerFile = this.compileTypeScriptLexer(grammar);
-            const listenerFile = this.compileTypeScriptListener(grammar, parser);
-            const parserPath = this.compileTypeScriptParser(grammar, parser);
-
             jsCompliedResults.filesGenerated.push(lexerFile);
-            jsCompliedResults.filesGenerated.push(listenerFile);
+
+            if (this.config.listener) {
+                const listenerFile = this.compileTypeScriptListener(grammar, parser);
+                jsCompliedResults.filesGenerated.push(listenerFile);
+            }
+
+            const parserPath = this.compileTypeScriptParser(grammar, parser);
             jsCompliedResults.filesGenerated.push(parserPath);
         }
 
@@ -95,12 +98,12 @@ class AntlrCompiler {
             child.execSync('which java');
 
             const cmd = this.command();
-            const output = child.execSync(cmd);
-
-            // const lines = output.split('\n');
+            child.execSync(cmd).toString();
 
             const files = fs.readdirSync(this.outputDirectory);
-            filesGenerated = _.filter(files, (file) => file.startsWith(baseGrammarName));
+            filesGenerated = _.filter(files, (file) => file.startsWith(baseGrammarName, 0));
+            filesGenerated = _.filter(filesGenerated, (file) => (file.indexOf('Listener.') !== -1 && this.config.listener) || file.indexOf('Listener.') === -1);
+            filesGenerated = _.filter(filesGenerated, (file) => (file.indexOf('Visitor.') !== -1 && this.config.visitor) || file.indexOf('Visitor.') === -1);
 
             const list = _.filter(filesGenerated, (file) => /(.*Lexer\..*)|(.*Parser\..*)/.test(file));
             grammar = _.first(list).replace(/(Lexer.*)|(Parser.*)/, '');
@@ -113,13 +116,28 @@ class AntlrCompiler {
         return {grammar, filesGenerated};
     }
 
-    grammarName(name) {
-        return;
-    }
-
     command() {
         const grammar = path.basename(this.grammarFile);
-        return `java -jar ${this.jar} -Dlanguage=${this.language}  -lib . -o ${this.outputDirectory} ${grammar}`;
+        const opts = this.additionalCommandOpts();
+        return `java -jar ${this.jar} -Dlanguage=${this.language} ${opts} -lib . -o ${this.outputDirectory} ${grammar}`;
+    }
+
+    additionalCommandOpts() {
+        let optsStr = '';
+
+        if (this.config.listener) {
+            optsStr += ` -listener`;
+        } else {
+            optsStr += ` -no-listener`;
+        }
+
+        if (this.config.visitor) {
+            optsStr += ` -visitor`;
+        } else {
+            optsStr += ` -no-visitor`;
+        }
+
+        return optsStr;
     }
 }
 
