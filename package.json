@@ -1,11 +1,10 @@
 {
   "name": "antlr4-tool",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "An Antlr4 tool that generates both Typescript and JavaScript Antlr Parsers",
   "main": "dist/index.js",
   "bin": {
     "antlr4-tool": "dist/app.js",
-    "antlr4-types-install": "dist/types-install-app.js",
     "antlr4.js": "dist/app.js"
   },
   "scripts": {
