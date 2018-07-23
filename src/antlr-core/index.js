@@ -51,9 +51,15 @@ function compile(config) {
     config.outputDirectory = path.resolve(config.outputDirectory);
 
     switch (config.language) {
+        case 'js':
+        case 'javascript':
         case 'JavaScript':
+            config.language = 'JavaScript';
             return compileGrammarAsJavaScript(config);
+        case 'ts':
+        case 'typescript':
         case 'TypeScript':
+            config.language = 'TypeScript';
             return compileGrammarAsTypeScript(config);
 
         default:
