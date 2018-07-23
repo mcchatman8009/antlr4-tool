@@ -24,7 +24,8 @@ const opts = commander.name("antlr4-tool")
 const config = {};
 
 if (_.isNil(antlrGrammars)) {
-    opts.help((str) => `Please specify grammar files \n${str}`);
+    opts.help((str) => `Please specify grammar files.\n${str}`);
+    process.exit(1);
 }
 
 config.language = (_.isNil(opts['language'])) ? 'TypeScript' : opts['language'];
