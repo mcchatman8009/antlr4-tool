@@ -99,7 +99,7 @@ class AntlrCompiler {
 
             const cmd = this.command();
             try {
-                child.execSync(cmd).toString();                
+                child.execSync(cmd).toString();
             } catch (error) {
                 process.exit(1);
             }
@@ -110,7 +110,11 @@ class AntlrCompiler {
             filesGenerated = _.filter(filesGenerated, (file) => (file.indexOf('Visitor.') !== -1 && this.config.visitor) || file.indexOf('Visitor.') === -1);
 
             const list = _.filter(filesGenerated, (file) => /(.*Lexer\..*)|(.*Parser\..*)/.test(file));
-            grammar = _.first(list).replace(/(Lexer.*)|(Parser.*)/, '');
+            if (!_.isEmpty(list)) {
+                grammar = _.first(list).replace(/(Lexer.*)|(Parser.*)/, '');
+            } else {
+                grammar = baseGrammarName;
+            }
 
 
             // Set the absolute paths on all the files
