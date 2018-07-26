@@ -33,11 +33,21 @@ class AntlrCompiler {
         const className = `${grammar}Listener`;
         const dest = `${this.outputDirectory}/${className}.d.ts`;
         const template = fs.readFileSync(`${__dirname}/templates/listener.d.ts.ejs`).toString();
+        const map = parserUtil.ruleToContextTypeMap(parser);
+
         const methods = _.flatten(_.map(parser.ruleNames, (rule) => {
-            return [`${rule}Enter`, `${rule}Exit`];
+            return [`${rule}Enter(ctx: ${map.get(rule)}): void;`, `${rule}Exit(ctx: ${map.get(rule)}): void;`];
         }));
 
-        const contents = ejs.render(template, {_: _, className: className, methods: methods});
+        const imports = _.flatten(_.map(parser.ruleNames, (rule) => {
+            if (grammar.indexOf('Parser') === -1) {
+                return `import {${map.get(rule)}} from './${grammar}Parser';`;
+            } else {
+                return `import {${map.get(rule)}} from './${grammar}';`;
+            }
+        }));
+
+        const contents = ejs.render(template, {_: _, className: className, methods: methods, imports});
 
         fs.writeFileSync(dest, contents);
 
@@ -76,8 +86,13 @@ class AntlrCompiler {
             jsCompliedResults.filesGenerated.push(lexerFile);
 
             if (this.config.listener) {
-                const listenerFile = this.compileTypeScriptListener(grammar, parser);
-                jsCompliedResults.filesGenerated.push(listenerFile);
+                if (fs.existsSync(`${this.outputDirectory}/${grammar}Listener.js`)) {
+                    const listenerFile = this.compileTypeScriptListener(grammar, parser);
+                    jsCompliedResults.filesGenerated.push(listenerFile);
+                } else if (fs.existsSync(`${this.outputDirectory}/${grammar}ParserListener.js`)) {
+                    const listenerFile = this.compileTypeScriptListener(`${grammar}Parser`, parser);
+                    jsCompliedResults.filesGenerated.push(listenerFile);
+                }
             }
 
             const parserPath = this.compileTypeScriptParser(grammar, parser);
