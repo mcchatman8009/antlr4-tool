@@ -1,13 +1,21 @@
-const child = require("child_process");
-const path = require("path");
-const chdir = require('chdir');
-const fs = require('fs');
-const ejs = require('ejs');
-const _ = require('lodash');
-const parserUtil = require('./parser-util');
+// const child = require("child_process");
+import * as child from 'child_process';
+import * as path from 'path';
+import * as fs from 'fs';
+import * as ejs from 'ejs';
+import * as _ from 'lodash';
+import * as parserUtil from './parser-util';
 
-class AntlrCompiler {
-    constructor(config) {
+const chdir = require('chdir');
+
+export class AntlrCompiler {
+    private config: any;
+    private jar: string;
+    private grammarFile: string;
+    private language: string;
+    private outputDirectory: string;
+
+    constructor(config: any) {
         this.config = config;
         this.jar = config.antlrJar;
         this.grammarFile = config.grammarFile;
@@ -15,7 +23,7 @@ class AntlrCompiler {
         this.outputDirectory = config.outputDirectory;
     }
 
-    compileTypeScriptParser(grammar, parser) {
+    compileTypeScriptParser(grammar: string, parser: any) {
         const className = `${grammar}Parser`;
         const dest = `${this.outputDirectory}/${className}.d.ts`;
         const template = fs.readFileSync(`${__dirname}/templates/parser.d.ts.ejs`).toString();
@@ -29,7 +37,7 @@ class AntlrCompiler {
         return dest;
     }
 
-    compileTypeScriptListener(grammar, parser) {
+    compileTypeScriptListener(grammar: string, parser: any) {
         const className = `${grammar}Listener`;
         const dest = `${this.outputDirectory}/${className}.d.ts`;
         const template = fs.readFileSync(`${__dirname}/templates/listener.d.ts.ejs`).toString();
@@ -54,7 +62,7 @@ class AntlrCompiler {
         return dest;
     }
 
-    compileTypeScriptLexer(grammar) {
+    compileTypeScriptLexer(grammar: string) {
         const className = `${grammar}Lexer`;
         const dest = `${this.outputDirectory}/${className}.d.ts`;
         const template = fs.readFileSync(`${__dirname}/templates/lexer.d.ts.ejs`).toString();
@@ -102,11 +110,11 @@ class AntlrCompiler {
         return jsCompliedResults;
     }
 
-    compileJavaScript() {
+    compileJavaScript(): { grammar: string, filesGenerated: string[] } {
         const dir = path.dirname(this.grammarFile);
         const baseGrammarName = path.basename(this.grammarFile).replace('.g4', '');
         const grammarPrefix = _.first(`${baseGrammarName}`.split(/(?=[A-Z])/));
-        let filesGenerated;
+        let filesGenerated: string[];
         let grammar;
 
         chdir(dir, () => {
@@ -121,8 +129,8 @@ class AntlrCompiler {
 
             const files = fs.readdirSync(this.outputDirectory);
             filesGenerated = _.filter(files, (file) => file.startsWith(baseGrammarName, 0));
-            filesGenerated = _.filter(filesGenerated, (file) => (file.indexOf('Listener.') !== -1 && this.config.listener) || file.indexOf('Listener.') === -1);
-            filesGenerated = _.filter(filesGenerated, (file) => (file.indexOf('Visitor.') !== -1 && this.config.visitor) || file.indexOf('Visitor.') === -1);
+            filesGenerated = filesGenerated.filter((file) => (file.indexOf('Listener.') !== -1 && this.config.listener) || file.indexOf('Listener.') === -1);
+            filesGenerated = filesGenerated.filter((file) => (file.indexOf('Visitor.') !== -1 && this.config.visitor) || file.indexOf('Visitor.') === -1);
 
             const list = _.filter(filesGenerated, (file) => /(.*Lexer\..*)|(.*Parser\..*)/.test(file));
             if (!_.isEmpty(list)) {
@@ -163,5 +171,3 @@ class AntlrCompiler {
         return optsStr;
     }
 }
-
-exports.AntlrCompiler = AntlrCompiler;
