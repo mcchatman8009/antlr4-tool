@@ -1,10 +1,10 @@
-const fs = require('fs');
-const util = require('./util');
-const _ = require('lodash');
-const path = require('path');
-const _eval = require("node-eval");
+import * as path from 'path';
+import * as fs from 'fs';
+import * as _ from 'lodash';
+import * as util from './util';
+const _eval = require('node-eval');
 
-function readLexer(grammar, lexerFile) {
+export function readLexer(grammar: string, lexerFile: string) {
     const outputDir = path.dirname(lexerFile);
     const contents = fs.readFileSync(lexerFile).toString();
     const Lexer = _eval(contents, `${outputDir}/eval.js`)[`${grammar}Lexer`];
@@ -13,7 +13,7 @@ function readLexer(grammar, lexerFile) {
     return lexer;
 }
 
-function readParser(grammar, parserFile) {
+export function readParser(grammar: string, parserFile: string) {
     const outputDir = path.dirname(parserFile);
     const contents = fs.readFileSync(parserFile).toString();
     const Parser = _eval(contents, `${outputDir}/eval.js`)[`${grammar}Parser`];
@@ -22,11 +22,11 @@ function readParser(grammar, parserFile) {
     return parser;
 }
 
-function contextRuleNames(parser) {
+export function contextRuleNames(parser: any) {
     return _.map(parser.ruleNames, (rule) => `${util.capitalizeFirstLetter(rule)}Context`);
 }
 
-function contextRules(parser) {
+export function contextRules(parser: any) {
     const rules = contextRuleNames(parser);
 
     return _.map(rules, (context) => {
@@ -34,7 +34,7 @@ function contextRules(parser) {
     });
 }
 
-function contextToRuleMap(parser) {
+export function contextToRuleMap(parser: any) {
     const map = new Map();
     _.each(parser.ruleNames, (rule) => {
         const context = `${util.capitalizeFirstLetter(rule)}Context`;
@@ -44,7 +44,7 @@ function contextToRuleMap(parser) {
     return map;
 }
 
-function ruleToContextTypeMap(parser) {
+export function ruleToContextTypeMap(parser: any) {
     const map = new Map();
     _.each(parser.ruleNames, (rule) => {
         const context = `${util.capitalizeFirstLetter(rule)}Context`;
@@ -54,7 +54,7 @@ function ruleToContextTypeMap(parser) {
     return map;
 }
 
-function symbolSet(parser) {
+export function symbolSet(parser: any) {
     const set = new Set();
     _.each(parser.symbolicNames, (name) => {
         set.add(name);
@@ -63,15 +63,15 @@ function symbolSet(parser) {
     return set;
 }
 
-function parserMethods(parser) {
+export function parserMethods(parser: any) {
     const ruleToContextMap = ruleToContextTypeMap(parser);
     const symbols = symbolSet(parser);
     const obj = {};
 
-    const methods = util.noArgMethods(parser);
+    const methods = util.getNoArgMethods(parser);
 
     return _.map(methods, (method) => {
-        const methodObj = {};
+        const methodObj = {} as any;
         methodObj.name = method;
 
         if (ruleToContextMap.has(method)) {
@@ -91,11 +91,11 @@ function parserMethods(parser) {
  * @param parser
  * @returns {string[]}
  */
-function exportedContextTypes(parser) {
+export function exportedContextTypes(parser: any) {
     const ParserClass = parser.constructor.name;
-    const contextRules = contextRuleNames(parser);
+    const ctxNames = contextRuleNames(parser);
 
-    const exportsStatements = _.map(contextRules, (ctxType) => {
+    const exportsStatements = _.map(ctxNames, (ctxType) => {
         return `exports.${ctxType} = ${ctxType};\n${ParserClass}.${ctxType} = ${ctxType};\n`;
     });
 
@@ -107,19 +107,19 @@ function exportedContextTypes(parser) {
  * @param parser
  * @returns [...,{id: string, type: string}]
  */
-function contextObjectAst(parser) {
+export function contextObjectAst(parser: any) {
     const types = contextRules(parser);
     const ruleToContextMap = ruleToContextTypeMap(parser);
     const symbols = symbolSet(parser);
     const rules = contextRuleNames(parser);
 
     return _.map(types, (context) => {
-        const obj = {};
+        const obj = {} as any;
         obj.name = context.name;
 
-        const methods = _.filter(util.noArgMethods(context.prototype), (mth) => mth !== 'depth');
+        const methods = _.filter(util.getNoArgMethods(context.prototype), (mth) => mth !== 'depth');
         obj.methods = _.map(methods, (method) => {
-            const methodObj = {};
+            const methodObj = {} as any;
             methodObj.name = method;
 
             if (ruleToContextMap.has(method)) {
@@ -136,14 +136,3 @@ function contextObjectAst(parser) {
         return obj;
     });
 }
-
-exports.readParser = readParser;
-exports.readLexer = readLexer;
-exports.contextObjectAst = contextObjectAst;
-exports.parserMethods = parserMethods;
-exports.symbolSet = symbolSet;
-exports.ruleToContextTypeMap = ruleToContextTypeMap;
-exports.contextToRuleMap = contextToRuleMap;
-exports.contextRules = contextRules;
-exports.contextRuleNames = contextRuleNames;
-exports.exportedContextTypes = exportedContextTypes;

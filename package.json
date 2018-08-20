@@ -1,8 +1,9 @@
 {
   "name": "antlr4-tool",
-  "version": "1.0.17",
+  "version": "1.0.19",
   "description": "An Antlr4 tool that generates both Typescript and JavaScript Antlr Parsers",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "bin": {
     "antlr4-tool": "dist/app.js",
     "antlr4.js": "dist/app.js"
@@ -10,8 +11,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf dist",
-    "build": "rm -rf dist && mkdir -p dist && cp -r src/* dist",
-    "watch": "webpack -w"
+    "lint": "tslint -p . -c tslint.json 'src/**/*.ts'",
+    "build": "rm -rf dist && mkdir -p dist/antlr-core/templates && cp -r src/bin dist && cp -r src/antlr-core/templates ./dist/antlr-core && tsc"
   },
   "files": [
     "dist",
@@ -46,5 +47,13 @@
   "author": {
     "name": "Marlon Chatman",
     "email": "mcchatman8009@gmail.com"
+  },
+  "devDependencies": {
+    "@types/commander": "^2.12.2",
+    "@types/ejs": "^2.6.0",
+    "@types/lodash": "^4.14.116",
+    "@types/node": "^10.7.1",
+    "tslint": "^5.11.0",
+    "typescript": "^3.0.1"
   }
 }

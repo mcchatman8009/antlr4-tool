@@ -1,10 +1,11 @@
-const AntlrCompiler = require('./antlr-compiler').AntlrCompiler;
-const _ = require('lodash');
-const path = require('path');
-const constants = require('./constants');
+import * as path from 'path';
+import * as _ from 'lodash';
+import {AntlrCompiler} from './antlr-compiler';
+import * as constants from './constants';
 
-function compileWithFunction(config, compileFunction) {
-    const compiledResults = {};
+
+function compileWithFunction(config: any, compileFunction: (complier: AntlrCompiler) => { grammar: string, filesGenerated: string[] }) {
+    const compiledResults = {} as any;
 
     _.each(config.grammarFiles, (grammar) => {
         const opts = _.clone(config);
@@ -35,11 +36,11 @@ function compileWithFunction(config, compileFunction) {
     return compiledResults;
 }
 
-function compileGrammarAsJavaScript(config) {
+function compileGrammarAsJavaScript(config: any) {
     return compileWithFunction(config, (compiler) => compiler.compileJavaScript());
 }
 
-function compileGrammarAsTypeScript(config) {
+function compileGrammarAsTypeScript(config: any) {
     config = _.clone(config);
 
     // Define the language as JavaScript for the Antlr4 Jar
@@ -47,7 +48,7 @@ function compileGrammarAsTypeScript(config) {
     return compileWithFunction(config, (compiler) => compiler.compileTypeScript());
 }
 
-function compile(config) {
+export function compile(config: any) {
     config.outputDirectory = path.resolve(config.outputDirectory);
 
     switch (config.language) {
@@ -66,5 +67,3 @@ function compile(config) {
             throw new Error(`Unsupported Language: ${config.language}`);
     }
 }
-
-exports.compile = compile;
