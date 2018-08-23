@@ -16,6 +16,6 @@ export declare class <%= className %> extends Parser {
 
     constructor(input: CommonTokenStream);
     <% _.each(methods, (method) => { %>
-    <%= method.name %>(): <%= method.type%>;
+    <%= method.name %>(<%= method.args %>): <%= method.type%>;
 <% }); %>
 }

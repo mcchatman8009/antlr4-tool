@@ -2,6 +2,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 import * as _ from 'lodash';
 import * as util from './util';
+
 const _eval = require('node-eval');
 
 export function readLexer(grammar: string, lexerFile: string) {
@@ -68,18 +69,21 @@ export function parserMethods(parser: any) {
     const symbols = symbolSet(parser);
     const obj = {};
 
-    const methods = util.getNoArgMethods(parser);
+    const methods = util.getMethods(parser);
 
     return _.map(methods, (method) => {
         const methodObj = {} as any;
-        methodObj.name = method;
+        methodObj.name = method.name;
 
-        if (ruleToContextMap.has(method)) {
-            methodObj.type = ruleToContextMap.get(method);
-        } else if (symbols.has(method)) {
+        if (ruleToContextMap.has(method.name)) {
+            methodObj.type = ruleToContextMap.get(method.name);
+            methodObj.args = method.args;
+        } else if (symbols.has(method.name)) {
             methodObj.type = 'TerminalNode';
+            methodObj.args = method.args;
         } else {
             methodObj.type = 'any';
+            methodObj.args = method.args;
         }
 
         return methodObj;
@@ -117,14 +121,15 @@ export function contextObjectAst(parser: any) {
         const obj = {} as any;
         obj.name = context.name;
 
-        const methods = _.filter(util.getNoArgMethods(context.prototype), (mth) => mth !== 'depth');
+        const methods = _.filter(util.getMethods(context.prototype), (mth) => mth !== 'depth');
         obj.methods = _.map(methods, (method) => {
             const methodObj = {} as any;
-            methodObj.name = method;
+            methodObj.name = method.name;
+            methodObj.args = method.args;
 
-            if (ruleToContextMap.has(method)) {
-                methodObj.type = ruleToContextMap.get(method);
-            } else if (symbols.has(method)) {
+            if (ruleToContextMap.has(method.name)) {
+                methodObj.type = ruleToContextMap.get(method.name);
+            } else if (symbols.has(method.name)) {
                 methodObj.type = 'TerminalNode';
             } else {
                 methodObj.type = 'any';

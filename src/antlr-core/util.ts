@@ -1,17 +1,17 @@
 import * as path from 'path';
-import * as _ from 'lodash';
 
-export function getNoArgMethods(obj: any): any[] {
+export function getMethods(obj: any): any[] {
     const result: any[] = [];
-
-    _.each(obj, (val, id) => {
+    /* tslint:disable */
+    for (const id in obj) {
         try {
             if (typeof(obj[id]) === 'function' && obj[id].length === 0) {
-                result.push(id);
+                const mth = {name: id, args: ''};
+                result.push(mth);
             }
         } catch (err) {
         }
-    });
+    }
 
     return result;
 }
