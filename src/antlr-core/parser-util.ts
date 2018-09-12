@@ -2,6 +2,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 import * as _ from 'lodash';
 import * as util from './util';
+import * as antlrTypes from './antlr-types';
 
 const _eval = require('node-eval');
 
@@ -132,7 +133,7 @@ export function contextObjectAst(parser: any) {
             } else if (symbols.has(method.name)) {
                 methodObj.type = 'TerminalNode';
             } else {
-                methodObj.type = 'any';
+                methodObj.type = getRuleContextMethodType(method);
             }
 
             return methodObj;
@@ -140,4 +141,12 @@ export function contextObjectAst(parser: any) {
 
         return obj;
     });
+}
+
+export function getRuleContextMethodType(method: Function) {
+    if (!method.name) {
+        return antlrTypes.parserRuleContextTypes.any;
+    }
+    return antlrTypes.parserRuleContextTypes[method.name]
+        || antlrTypes.parserRuleContextTypes.any;
 }
