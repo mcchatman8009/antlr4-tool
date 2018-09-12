@@ -83,7 +83,7 @@ export function parserMethods(parser: any) {
             methodObj.type = 'TerminalNode';
             methodObj.args = method.args;
         } else {
-            methodObj.type = 'any';
+            methodObj.type = getParserMethodType(method);
             methodObj.args = method.args;
         }
 
@@ -149,4 +149,12 @@ export function getRuleContextMethodType(method: Function) {
     }
     return antlrTypes.parserRuleContextTypes[method.name]
         || antlrTypes.parserRuleContextTypes.any;
+}
+
+export function getParserMethodType(method: Function) {
+    if (!method.name) {
+        return antlrTypes.parserMethodsTypes.any;
+    }
+    return antlrTypes.parserMethodsTypes[method.name]
+        || antlrTypes.parserMethodsTypes.any;
 }
