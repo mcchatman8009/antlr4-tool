@@ -35,7 +35,7 @@ export const parserMethodsTypes: MethodReturningTypes = {
     dumpDFA: 'void',
     getSourceName: 'string',
     removeErrorListeners: 'void',
-    getTokenTypeMap: '{[x: string]: string}',
+    getTokenTypeMap: '{[x: string]: number}',
     getRuleIndexMap: '{[x: string]: number}',
     getErrorListenerDispatch: 'ProxyErrorListener',
 };
