@@ -2,7 +2,6 @@ import * as path from 'path';
 import * as fs from 'fs';
 import * as _ from 'lodash';
 import * as util from './util';
-import * as antlrTypes from './antlr-types';
 
 const _eval = require('node-eval');
 
@@ -71,8 +70,11 @@ export function parserMethods(parser: any) {
     const obj = {};
 
     const methods = util.getMethods(parser);
+    const ownMethods = _.filter(methods, method => (
+        ruleToContextMap.has(method.name) || symbols.has(method.name)
+    ));
 
-    return _.map(methods, (method) => {
+    return _.map(ownMethods, (method) => {
         const methodObj = {} as any;
         methodObj.name = method.name;
 
@@ -81,9 +83,6 @@ export function parserMethods(parser: any) {
             methodObj.args = method.args;
         } else if (symbols.has(method.name)) {
             methodObj.type = 'TerminalNode';
-            methodObj.args = method.args;
-        } else {
-            methodObj.type = getParserMethodType(method);
             methodObj.args = method.args;
         }
 
@@ -123,7 +122,11 @@ export function contextObjectAst(parser: any) {
         obj.name = context.name;
 
         const methods = _.filter(util.getMethods(context.prototype), (mth) => mth !== 'depth');
-        obj.methods = _.map(methods, (method) => {
+        const ownMethods = _.filter(methods, method => (
+            ruleToContextMap.has(method.name) || symbols.has(method.name)
+        ));
+
+        obj.methods = _.map(ownMethods, (method) => {
             const methodObj = {} as any;
             methodObj.name = method.name;
             methodObj.args = method.args;
@@ -132,8 +135,6 @@ export function contextObjectAst(parser: any) {
                 methodObj.type = ruleToContextMap.get(method.name);
             } else if (symbols.has(method.name)) {
                 methodObj.type = 'TerminalNode';
-            } else {
-                methodObj.type = getRuleContextMethodType(method);
             }
 
             return methodObj;
@@ -141,20 +142,4 @@ export function contextObjectAst(parser: any) {
 
         return obj;
     });
-}
-
-export function getRuleContextMethodType(method: Function) {
-    if (!method.name) {
-        return antlrTypes.parserRuleContextTypes.any;
-    }
-    return antlrTypes.parserRuleContextTypes[method.name]
-        || antlrTypes.parserRuleContextTypes.any;
-}
-
-export function getParserMethodType(method: Function) {
-    if (!method.name) {
-        return antlrTypes.parserMethodsTypes.any;
-    }
-    return antlrTypes.parserMethodsTypes[method.name]
-        || antlrTypes.parserMethodsTypes.any;
 }
