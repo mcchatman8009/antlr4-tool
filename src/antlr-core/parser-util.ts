@@ -35,6 +35,12 @@ export function contextRules(parser: any) {
     });
 }
 
+export function classContextRules(parserClass: any) {
+    return Object.keys(parserClass)
+        .map((key: any) => parserClass[key])
+        .filter(value => typeof value === 'function');
+}
+
 export function contextToRuleMap(parser: any) {
     const map = new Map();
     _.each(parser.ruleNames, (rule) => {
@@ -96,11 +102,13 @@ export function parserMethods(parser: any) {
  * @returns {string[]}
  */
 export function exportedContextTypes(parser: any) {
-    const ParserClass = parser.constructor.name;
-    const ctxNames = contextRuleNames(parser);
+    const ParserClass = parser.constructor;
+    const classCtxNames = classContextRules(ParserClass).map(rule => rule.name);
+    const instanceCtxNames = contextRuleNames(parser);
+    const ctxNames = _.union(instanceCtxNames, classCtxNames);
 
     const exportsStatements = _.map(ctxNames, (ctxType) => {
-        return `exports.${ctxType} = ${ctxType};\n${ParserClass}.${ctxType} = ${ctxType};\n`;
+        return `exports.${ctxType} = ${ctxType};\n${ParserClass.name}.${ctxType} = ${ctxType};\n`;
     });
 
     return exportsStatements;
@@ -112,7 +120,7 @@ export function exportedContextTypes(parser: any) {
  * @returns [...,{id: string, type: string}]
  */
 export function contextObjectAst(parser: any) {
-    const types = contextRules(parser);
+    const types = classContextRules(parser.constructor);
     const ruleToContextMap = ruleToContextTypeMap(parser);
     const symbols = symbolSet(parser);
     const rules = contextRuleNames(parser);
