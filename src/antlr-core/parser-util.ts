@@ -70,8 +70,11 @@ export function parserMethods(parser: any) {
     const obj = {};
 
     const methods = util.getMethods(parser);
+    const ownMethods = _.filter(methods, method => (
+        ruleToContextMap.has(method.name) || symbols.has(method.name)
+    ));
 
-    return _.map(methods, (method) => {
+    return _.map(ownMethods, (method) => {
         const methodObj = {} as any;
         methodObj.name = method.name;
 
@@ -80,9 +83,6 @@ export function parserMethods(parser: any) {
             methodObj.args = method.args;
         } else if (symbols.has(method.name)) {
             methodObj.type = 'TerminalNode';
-            methodObj.args = method.args;
-        } else {
-            methodObj.type = 'any';
             methodObj.args = method.args;
         }
 
@@ -122,7 +122,11 @@ export function contextObjectAst(parser: any) {
         obj.name = context.name;
 
         const methods = _.filter(util.getMethods(context.prototype), (mth) => mth !== 'depth');
-        obj.methods = _.map(methods, (method) => {
+        const ownMethods = _.filter(methods, method => (
+            ruleToContextMap.has(method.name) || symbols.has(method.name)
+        ));
+
+        obj.methods = _.map(ownMethods, (method) => {
             const methodObj = {} as any;
             methodObj.name = method.name;
             methodObj.args = method.args;
@@ -131,8 +135,6 @@ export function contextObjectAst(parser: any) {
                 methodObj.type = ruleToContextMap.get(method.name);
             } else if (symbols.has(method.name)) {
                 methodObj.type = 'TerminalNode';
-            } else {
-                methodObj.type = 'any';
             }
 
             return methodObj;
