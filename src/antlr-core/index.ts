@@ -4,7 +4,7 @@ import {AntlrCompiler} from './antlr-compiler';
 import * as constants from './constants';
 
 
-function compileWithFunction(config: any, compileFunction: (complier: AntlrCompiler) => { grammar: string, filesGenerated: string[] }) {
+function compileWithFunction(config: any, compileFunction: (compiler: AntlrCompiler) => { grammar: string, filesGenerated: string[] }) {
     const compiledResults = {} as any;
 
     _.each(config.grammarFiles, (grammar) => {
