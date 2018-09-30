@@ -7,10 +7,10 @@ import * as vm from 'vm';
 export function readLexer(grammar: string, lexerFile: string) {
     const code = fs.readFileSync(lexerFile).toString();
     const vmRequire = (request: string) => {
-      if (request === 'antlr4/index' || request === 'antlr4') {
-        return require(request);
-      }
-      return require.resolve(request, { paths: [path.dirname(lexerFile)] });
+        if (request === 'antlr4/index' || request === 'antlr4') {
+            return require(request);
+        }
+        return require.resolve(request, { paths: [path.dirname(lexerFile)] });
     };
     const context = { require: vmRequire, exports: {} as any, __dirname: path.dirname(lexerFile), __filename: path.resolve(lexerFile) };
     vm.createContext(context);
@@ -24,10 +24,10 @@ export function readLexer(grammar: string, lexerFile: string) {
 export function readParser(grammar: string, parserFile: string) {
     const code = fs.readFileSync(parserFile).toString();
     const vmRequire = (request: string) => {
-      if (request === 'antlr4/index' || request === 'antlr4') {
-        return require(request);
-      }
-      return require.resolve(request, { paths: [path.dirname(parserFile)] });
+        if (request === 'antlr4/index' || request === 'antlr4') {
+            return require(request);
+        }
+        return require.resolve(request, { paths: [path.dirname(parserFile)] });
     };
     const context = { require: vmRequire, exports: {} as any, __dirname: path.dirname(parserFile), __filename: path.resolve(parserFile) };
     vm.createContext(context);
