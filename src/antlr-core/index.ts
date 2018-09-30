@@ -4,23 +4,23 @@ import {AntlrCompiler} from './antlr-compiler';
 import * as constants from './constants';
 
 export interface AntlrCompilerConfig {
-    language: 'JavaScript' | 'TypeScript',
-    grammarFiles: string[],
-    outputDirectory: string,
-    antlrJar?: string,
-    listener?: boolean,
-    visitor?: boolean
+    language: 'js' | 'javascript' | 'JavaScript' | 'ts' | 'typescript' | 'TypeScript';
+    grammarFiles: string[];
+    outputDirectory: string;
+    antlrJar?: string;
+    listener?: boolean;
+    visitor?: boolean;
 }
-  
+
 export interface AntlrCompilerResult {
-    [grammar: string]: string[]
+    [grammar: string]: string[];
 }
 
 function compileWithFunction(config: AntlrCompilerConfig, compileFunction: (compiler: AntlrCompiler) => { grammar: string, filesGenerated: string[] }): AntlrCompilerResult {
     const compiledResults = {} as any;
 
     _.each(config.grammarFiles, (grammar) => {
-        const opts = _.clone(config);
+        const opts = _.clone(config) as any;
         opts.grammarFile = path.resolve(grammar);
         opts.outputDirectory = path.resolve(config.outputDirectory);
 
