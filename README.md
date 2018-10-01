@@ -95,17 +95,24 @@ npm install -g antlr4-tool
 ```
 
 ```
-  Usage: antlr4-tool [options] <grammars...>
+Usage: antlr4-tool [options] <grammars...>
 
-  Options:
+Options:
 
-    -o --output-dir [output_dir]  Output Directory (Default: Current Directory)
-    -l --language [language]      Antlr Language Target: ts, typescript, js, javascript (Default: typescript)
-    --listener                    Generate parse tree listener (Default)
-    --no-listener                 Don't generate parse tree listener
-    --visitor                     Generate parse tree visitor (Default)
-    --no-visitor                  Don't generate parse tree visitor
-    -h, --help                    output usage information
+  -V, --version                 output the version number
+  -o --output-dir [output_dir]  Output Directory (Default: Current Directory)
+  -l --language [language]      Antlr Language Target: ts, typescript, js, javascript (Default: typescript)
+  --listener                    Generate parse tree listener (Default)
+  --no-listener                 Don't generate parse tree listener
+  --visitor                     Generate parse tree visitor (Default)
+  --no-visitor                  Don't generate parse tree visitor
+  -h, --help                    output usage information
+
+```
+
+### Finding the Version
+```bash
+antlr4-tool -V
 ```
 
 
