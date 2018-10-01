@@ -2,22 +2,37 @@ import * as path from 'path';
 import * as fs from 'fs';
 import * as _ from 'lodash';
 import * as util from './util';
-
-const _eval = require('node-eval');
+import * as vm from 'vm';
 
 export function readLexer(grammar: string, lexerFile: string) {
-    const outputDir = path.dirname(lexerFile);
-    const contents = fs.readFileSync(lexerFile).toString();
-    const Lexer = _eval(contents, `${outputDir}/eval.js`)[`${grammar}Lexer`];
+    const code = fs.readFileSync(lexerFile).toString();
+    const vmRequire = (request: string) => {
+        if (request === 'antlr4/index' || request === 'antlr4') {
+            return require(request);
+        }
+        return require.resolve(request, { paths: [path.dirname(lexerFile)] });
+    };
+    const context = { require: vmRequire, exports: {} as any, __dirname: path.dirname(lexerFile), __filename: path.resolve(lexerFile) };
+    vm.createContext(context);
+    vm.runInContext(code, context);
+    const Lexer = context.exports[`${grammar}Lexer`];
     const lexer = new Lexer(null);
 
     return lexer;
 }
 
 export function readParser(grammar: string, parserFile: string) {
-    const outputDir = path.dirname(parserFile);
-    const contents = fs.readFileSync(parserFile).toString();
-    const Parser = _eval(contents, `${outputDir}/eval.js`)[`${grammar}Parser`];
+    const code = fs.readFileSync(parserFile).toString();
+    const vmRequire = (request: string) => {
+        if (request === 'antlr4/index' || request === 'antlr4') {
+            return require(request);
+        }
+        return require.resolve(request, { paths: [path.dirname(parserFile)] });
+    };
+    const context = { require: vmRequire, exports: {} as any, __dirname: path.dirname(parserFile), __filename: path.resolve(parserFile) };
+    vm.createContext(context);
+    vm.runInContext(code, context);
+    const Parser = context.exports[`${grammar}Parser`];
     const parser = new Parser(null);
 
     return parser;
