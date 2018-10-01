@@ -5,10 +5,14 @@ import * as fs from 'fs';
 import {compile} from './compile';
 
 const log = console.log;
+const finder = require('find-package-json');
 
 let antlrGrammars: string[];
+const finderIterator = finder(__dirname);
+const packageJson = finderIterator.next().value;
 
-const opts = commander.name('antlr4-tool')
+const opts = commander.name(packageJson.name)
+    .version(packageJson.version)
     .arguments('<grammars...>')
     .option('-o --output-dir [output_dir]', 'Output Directory (Default: Current Directory)')
     .option('-l --language [language]', 'Antlr Language Target: ts, typescript, js, javascript (Default: typescript)')
