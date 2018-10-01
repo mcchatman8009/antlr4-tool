@@ -3,12 +3,24 @@ import * as _ from 'lodash';
 import {AntlrCompiler} from './antlr-compiler';
 import * as constants from './constants';
 
+export interface AntlrCompilerConfig {
+    language: 'js' | 'javascript' | 'JavaScript' | 'ts' | 'typescript' | 'TypeScript';
+    grammarFiles: string[];
+    outputDirectory: string;
+    antlrJar?: string;
+    listener?: boolean;
+    visitor?: boolean;
+}
 
-function compileWithFunction(config: any, compileFunction: (compiler: AntlrCompiler) => { grammar: string, filesGenerated: string[] }) {
+export interface AntlrCompilerResult {
+    [grammar: string]: string[];
+}
+
+function compileWithFunction(config: AntlrCompilerConfig, compileFunction: (compiler: AntlrCompiler) => { grammar: string, filesGenerated: string[] }): AntlrCompilerResult {
     const compiledResults = {} as any;
 
     _.each(config.grammarFiles, (grammar) => {
-        const opts = _.clone(config);
+        const opts = _.clone(config) as any;
         opts.grammarFile = path.resolve(grammar);
         opts.outputDirectory = path.resolve(config.outputDirectory);
 
@@ -36,11 +48,11 @@ function compileWithFunction(config: any, compileFunction: (compiler: AntlrCompi
     return compiledResults;
 }
 
-function compileGrammarAsJavaScript(config: any) {
+function compileGrammarAsJavaScript(config: AntlrCompilerConfig): AntlrCompilerResult {
     return compileWithFunction(config, (compiler) => compiler.compileJavaScript());
 }
 
-function compileGrammarAsTypeScript(config: any) {
+function compileGrammarAsTypeScript(config: AntlrCompilerConfig): AntlrCompilerResult {
     config = _.clone(config);
 
     // Define the language as JavaScript for the Antlr4 Jar
@@ -48,7 +60,7 @@ function compileGrammarAsTypeScript(config: any) {
     return compileWithFunction(config, (compiler) => compiler.compileTypeScript());
 }
 
-export function compile(config: any) {
+export function compile(config: AntlrCompilerConfig): AntlrCompilerResult {
     config.outputDirectory = path.resolve(config.outputDirectory);
 
     switch (config.language) {
