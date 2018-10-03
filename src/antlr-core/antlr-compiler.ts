@@ -37,6 +37,10 @@ export class AntlrCompiler {
         return dest;
     }
 
+    capitalize = (s: string) => {
+        return s.charAt(0).toUpperCase() + s.slice(1);
+    }
+
     compileTypeScriptListener(grammar: string, parser: any) {
         const className = `${grammar}Listener`;
         const dest = `${this.outputDirectory}/${className}.d.ts`;
@@ -44,7 +48,7 @@ export class AntlrCompiler {
         const map = parserUtil.ruleToContextTypeMap(parser);
 
         const methods = _.flatten(_.map(parser.ruleNames, (rule) => {
-            return [`${rule}Enter(ctx: ${map.get(rule)}): void;`, `${rule}Exit(ctx: ${map.get(rule)}): void;`];
+            return [`enter${this.capitalize(rule)}(ctx: ${map.get(rule)}): void;`, `exit${this.capitalize(rule)}(ctx: ${map.get(rule)}): void;`];
         }));
 
         const imports = _.flatten(_.map(parser.ruleNames, (rule) => {
