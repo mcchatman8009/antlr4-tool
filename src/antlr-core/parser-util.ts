@@ -139,10 +139,21 @@ export function contextObjectAst(parser: any) {
     const ruleToContextMap = ruleToContextTypeMap(parser);
     const symbols = symbolSet(parser);
     const rules = contextRuleNames(parser);
+    const fieldFilter = new Set(['children', 'start', 'stop', 'exception']);
 
     return _.map(types, (context) => {
         const obj = {} as any;
         obj.name = context.name;
+
+        const inst = new context(parser.parser, {});
+
+        const fields = util.getFields(inst);
+        const contextFields = _.filter(fields, field => !fieldFilter.has(field));
+
+        obj.fields = _.map(contextFields, (field) => ({
+            name: field,
+            type: ruleToContextMap.get(field) || 'ParserRuleContext'
+        }));
 
         const methods = _.filter(util.getMethods(context.prototype), (mth) => mth !== 'depth');
         const ownMethods = _.filter(methods, method => (
