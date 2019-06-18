@@ -3,6 +3,10 @@ import {TerminalNode} from 'antlr4/tree/Tree';
 
 <% _.each(contextRules, (contextRule) => { %>
 export declare class <%= contextRule.name %> extends ParserRuleContext {
+    <% _.each(contextRule.fields, (field) => { %>
+    <%= field.name %>: <%= field.type %>;
+    <% }); %>
+
     <% _.each(contextRule.methods, (method) => { %>
     <%= method.name %>(): <%= method.type %>;
     <% }); %>
