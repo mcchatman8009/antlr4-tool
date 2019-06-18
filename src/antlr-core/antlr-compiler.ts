@@ -66,6 +66,19 @@ export class AntlrCompiler {
         return dest;
     }
 
+    compileTypeScriptVisitor(grammar: string, parser: any) {
+        const className = `${grammar}Visitor`;
+        const dest = `${this.outputDirectory}/${className}.d.ts`;
+        const template = fs.readFileSync(`${__dirname}/templates/visitor.d.ts.ejs`).toString();
+        const map = parserUtil.ruleToContextTypeMap(parser);
+
+        const contents = ejs.render(template, {_: _, className: className});
+
+        fs.writeFileSync(dest, contents);
+
+        return dest;
+    }
+
     compileTypeScriptLexer(grammar: string) {
         const className = `${grammar}Lexer`;
         const dest = `${this.outputDirectory}/${className}.d.ts`;
@@ -81,7 +94,6 @@ export class AntlrCompiler {
         const jsCompliedResults = this.compileJavaScript();
         const grammar = jsCompliedResults.grammar;
         const parserFile = `${this.outputDirectory}/${grammar}Parser.js`;
-
 
         if (fs.existsSync(parserFile)) {
             let parser = parserUtil.readParser(grammar, parserFile);
@@ -104,6 +116,16 @@ export class AntlrCompiler {
                 } else if (fs.existsSync(`${this.outputDirectory}/${grammar}ParserListener.js`)) {
                     const listenerFile = this.compileTypeScriptListener(`${grammar}Parser`, parser);
                     jsCompliedResults.filesGenerated.push(listenerFile);
+                }
+            }
+
+            if (this.config.visitor) {
+                if (fs.existsSync(`${this.outputDirectory}/${grammar}Visitor.js`)) {
+                    const visitorFile = this.compileTypeScriptVisitor(grammar, parser);
+                    jsCompliedResults.filesGenerated.push(visitorFile);
+                } else if (fs.existsSync(`${this.outputDirectory}/${grammar}ParserVisitor.js`)) {
+                    const visitorFile = this.compileTypeScriptVisitor(`${grammar}Parser`, parser);
+                    jsCompliedResults.filesGenerated.push(visitorFile);
                 }
             }
 
