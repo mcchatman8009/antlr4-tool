@@ -122,7 +122,11 @@ export class AntlrCompiler {
         let grammar;
 
         chdir(dir, () => {
-            child.execSync('which java');
+            if (process.platform === 'win32') {
+                child.execSync('where java');
+            } else {
+                child.execSync('which java');
+            }
 
             const cmd = this.command();
             try {
