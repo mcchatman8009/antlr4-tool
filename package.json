@@ -1,6 +1,6 @@
 {
   "name": "antlr4-tool",
-  "version": "1.0.27",
+  "version": "1.0.29",
   "description": "An Antlr4 tool that generates both Typescript and JavaScript Antlr Parsers",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -9,7 +9,7 @@
     "antlr4.js": "dist/app.js"
   },
   "scripts": {
-    "preinstall": "npx npm-force-resolutions",
+    "fix-resolutions": "npx npm-force-resolutions",
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf dist",
     "lint": "tslint -p . -c tslint.json 'src/**/*.ts'",
