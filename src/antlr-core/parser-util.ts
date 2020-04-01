@@ -27,11 +27,12 @@ export function readParser(grammar: string, parserFile: string) {
         if (request === 'antlr4/index' || request === 'antlr4') {
             return require(request);
         }
-        return require.resolve(request, { paths: [path.dirname(parserFile)] });
+
+        return require(parserFile);
     };
     const context = { require: vmRequire, exports: {} as any, __dirname: path.dirname(parserFile), __filename: path.resolve(parserFile) };
-    vm.createContext(context);
-    vm.runInContext(code, context);
+    const newCtx = vm.createContext(context);
+    vm.runInContext(code, newCtx);
     const Parser = context.exports[`${grammar}Parser`];
     const parser = new Parser(null);
 
