@@ -1,7 +1,7 @@
 {
-  "name": "antlr4.8-tool",
-  "version": "1.0.1",
-  "description": "An Antlr4.8 tool that generates both Typescript and JavaScript Antlr 4.8 Parsers",
+  "name": "antlr4-tool",
+  "version": "11.1.0",
+  "description": "An Antlr4 tool that generates both Typescript and JavaScript Antlr Parsers (Current Antlr version: 4.8)",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
