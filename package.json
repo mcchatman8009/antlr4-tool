@@ -1,7 +1,7 @@
 {
   "name": "antlr4-tool",
-  "version": "1.0.30",
-  "description": "An Antlr4 tool that generates both Typescript and JavaScript Antlr Parsers",
+  "version": "1.1.0",
+  "description": "An Antlr4 tool that generates both Typescript and JavaScript Antlr Parsers (Current Antlr version: 4.8)",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
@@ -30,7 +30,7 @@
   "license": "ISC",
   "dependencies": {
     "@types/antlr4": "^4.7.0",
-    "antlr4": "^4.7.1",
+    "antlr4": "^4.8.0",
     "chalk": "^2.4.1",
     "chdir": "0.0.0",
     "commander": "^2.16.0",
