@@ -1,6 +1,6 @@
 {
   "name": "antlr4-tool",
-  "version": "11.1.0",
+  "version": "1.1.0",
   "description": "An Antlr4 tool that generates both Typescript and JavaScript Antlr Parsers (Current Antlr version: 4.8)",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -9,6 +9,7 @@
     "antlr4.js": "dist/app.js"
   },
   "scripts": {
+    "fix-resolutions": "npx npm-force-resolutions",
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf dist",
     "lint": "tslint -p . -c tslint.json 'src/**/*.ts'",
@@ -49,11 +50,15 @@
     "name": "Marlon Chatman",
     "email": "mcchatman8009@gmail.com"
   },
+  "resolutions": {
+    "minimist": "^1.2.5"
+  },
   "devDependencies": {
     "@types/commander": "^2.12.2",
     "@types/ejs": "^2.6.0",
     "@types/lodash": "^4.14.116",
     "@types/node": "^10.11.3",
+    "npm-force-resolutions": "0.0.3",
     "tslint": "^5.11.0",
     "typescript": "^3.1.1"
   }
